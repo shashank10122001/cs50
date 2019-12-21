@@ -1,0 +1,528 @@
+Week 1:
+Part 1:
+#include <stdio.h>
+
+int main()
+{
+    int i,j,k,n;
+    printf("height:");
+    scanf("%d",&n);
+    
+    for(i=1;i<=n;i++)
+    {
+        for(j=n;j>=1;j--)
+        {
+            if(j>i)
+            printf(" ");
+            else if (j<=i)
+            printf("#");
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
+Part 2:
+#include <stdio.h>
+
+int main()
+{
+    int i,j,k,n;
+    printf("height:");
+    scanf("%d",&n);
+    
+    for(i=1;i<=n;i++)
+    {
+        for(j=0;j<2*n+1;j++)
+        {
+            if(j==n)
+            printf("  ");
+            if(j<n-i)
+            printf(" ");
+            else if (j>=n-i&&n>j)
+            printf("#");
+            if(j<=n+i&&j>n)
+            printf("#");
+            
+        }
+        printf("\n");
+        
+    }
+
+    return 0;
+}
+
+
+
+
+Part 3: (
+
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+    int i,j,k=1,s_odd=0,s_even=0,temp;
+    long long int n=1,a=1,b,c;
+    printf("card number:");
+    scanf("%lld",&n);
+    //counting digits
+    for(i=0;i<17&&a!=0;i++)
+    {
+        a=n/(pow(10,i));
+        k++;
+        
+    }
+    printf("the number of digits are:%d \n",k-2);
+    
+    
+    for(i=1,j=0;i<=k-1,j<=k-1;i=i+2,j=j+2)
+    {
+        c=(n/pow(10,i));
+        b=(n/pow(10,j));
+        
+        s_odd=s_odd+b%10;
+        s_even=s_even+c%10;
+    }
+    printf("%d %d",s_odd,s_even);
+    k=s_odd+(2*s_even);
+    if(k%10==0)
+    printf("VALID ID");
+    else if(k%10!=0)
+    printf("INVALID");
+    
+    
+    
+    return 0;
+}
+
+WEEK 2:
+Part 1:
+#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+	#include <ctype.h>
+	#include <cs50.h>
+	
+
+	int main(int argc, string argv[])
+	{
+	
+
+	
+
+	// check no. of arguments
+	    if (argc != 2)
+	    {
+	        printf("Usage: ./caesar k\n");
+	
+
+	        return 1;
+	    }
+	
+
+	    int k = atoi(argv[1]);
+	
+
+	    string s = get_string("plaintext: "); 
+	    printf("ciphertext: ");
+	
+
+	// iterate through plain text letter by letter
+	    for (int i = 0, n = strlen(s) ; i < n; i++)
+	    {
+	        
+	        if (s[i] >= 'a' && s[i] <= 'z')
+	        {
+	            printf("%c", (((s[i] - 'a') + k) % 26) + 'a'); // print out lowercase with key
+	        } 
+	       else if (s[i] >= 'A' && s[i] <= 'Z')
+	        {
+	            printf("%c", (((s[i] - 'A') + k) % 26) + 'A'); // print out uppercase with key
+	        }
+	
+
+	        Else
+	
+
+	        {
+	            printf("%c", s[i]);
+	        }
+	    }
+	
+
+	    printf("\n");
+	    return 0;
+	}
+
+Part 2:
+#include <stdio.h>
+	#include <crypt.h>
+	#include <string.h>
+	#include <unistd.h>
+	
+
+	#define SEED "50"
+	
+
+	
+
+	int main(int argc, char *argv[])
+	{
+	
+
+	    if (argc != 2) {
+	        printf("Usage: ./crack hash\n");
+	        return 1;
+	    }
+	
+
+	    const char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	
+
+	    char word[5] = {0};
+	
+
+	    int alphabet_len = (int) strlen(alphabet);
+	
+
+	    for (int i = 0; i < alphabet_len; ++i) {
+	        for (int j = 0; j < alphabet_len; ++j) {
+	            for (int k = 0; k < alphabet_len; ++k) {
+	                for (int l = 0; l < alphabet_len; ++l) {
+	                    if (strcmp(crypt(word, SEED), argv[1]) == 0) {
+	                        goto exit_loop;
+	                    }
+	                    word[0] = alphabet[l];
+	                }
+	                word[1] = alphabet[k];
+	            }
+	            word[2] = alphabet[j];
+	        }
+	        word[3] = alphabet[i];
+	    }
+	    exit_loop:;
+	
+
+	    printf("%s\n", word);
+	
+
+	    return 0;
+	}
+
+Part 3:
+
+#include <cs50.h>
+	#include <stdio.h>
+	#include <string.h>
+	#include <stdlib.h>
+	#include <ctype.h>
+	
+
+	int main(int argc, string argv[])
+	{   
+	 
+	    // ensure proper usage
+	    if (argc != 2) 
+	    {
+	        printf("Usage: ./vigenere <keyword>\n");
+	        return 1;
+	    }
+	    int m = strlen(argv[1]);
+	    
+	   
+	    for (int i = 0; i < m; i++)
+	    {   
+	        if (isalpha( argv[1][i]) == false)
+	        {
+	            printf("Keyword must only contain letters A-Z and a-z\n");
+	            return 1;
+	        }
+	    } 
+	    
+	    // get the message from the user
+	    string text = GetString();
+	    for (int i = 0, j = 0, result = 0, n = strlen(text); i < n; i++)
+	    {
+	        char letter = text[i];
+	        
+
+
+	        char key = argv[1][(j) % m]; 
+	        
+	           
+	        if (isupper(key)) 
+	        {
+	           key -= 65; 
+	        }
+	        else if (islower(key))
+	        {
+	           key -= 97;
+	        }
+	        if (isupper(letter))
+	        {
+	            result = (letter + key - 65) % 26 + 65;
+	            j++;
+	        }   
+	        else if (islower(letter))
+	        {
+	           result = (letter  + key - 97) % 26 + 97;
+	           j++;
+	        }
+	        
+	      
+	       else
+	        {
+	           result = letter;
+	        }
+	           printf("%c", result);
+	    }   
+	    printf("\n");      
+	}
+
+
+Week 3:
+Part 2:
+#include <stdio.h>
+	#include <stdlib.h>
+	
+
+	#include "bmp.h"
+	
+
+	int main(int argc, char* argv[])
+	{
+	    
+	    if (argc != 4)
+	    {
+	        printf("Usage: ./resize n infile outfile\n");
+	        return 1;
+	    }
+	
+
+	    
+	    int n = atoi(argv[1]);
+	    
+	    if (n < 1 || n > 100)
+	    {
+	           printf("BMP resizing factor must be a postive integer less than or equal to 100.");
+	           return 1;
+	    }
+	    
+	    
+	    char* infile = argv[2];
+	    char* outfile = argv[3];
+	
+
+	     
+	    FILE* inptr = fopen(infile, "r");
+	    if (inptr == NULL)
+	    {
+	        printf("Could not open %s.\n", infile);
+	        return 2;
+	    }
+	
+
+	    
+	    FILE* outptr = fopen(outfile, "w");
+	    if (outptr == NULL)
+	    {
+	        fclose(inptr);
+	        fprintf(stderr, "Could not create %s.\n", outfile);
+	        return 3;
+	    }
+	
+
+	    
+	    BITMAPFILEHEADER bf;
+	    fread(&bf, sizeof(BITMAPFILEHEADER), 1, inptr);
+	
+
+	    
+	    BITMAPINFOHEADER bi;
+	    fread(&bi, sizeof(BITMAPINFOHEADER), 1, inptr);
+	
+
+	    
+	    if (bf.bfType != 0x4d42 || bf.bfOffBits != 54 || bi.biSize != 40 || 
+	        bi.biBitCount != 24 || bi.biCompression != 0)
+	    {
+	        fclose(outptr);
+	        fclose(inptr);
+	        fprintf(stderr, "Unsupported file format.\n");
+	        return 4;
+	    }
+	    
+	    
+	    int old_biWidth = bi.biWidth;
+	    int old_biHeight = bi.biHeight;
+	    int old_padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+	    
+	    
+	    bi.biWidth = bi.biWidth * n;
+	    bi.biHeight = bi.biHeight * n;
+	    int new_padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+	    
+	    
+	    bi.biSizeImage = ((bi.biWidth * sizeof(RGBTRIPLE)) + new_padding) * abs(bi.biHeight);
+	    bf.bfSize = bi.biSizeImage + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+	
+
+	    
+	    fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
+	
+
+	    
+	    fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
+	
+
+	    
+	    for (int i = 0, biHeight = abs(old_biHeight); i < biHeight; i++)
+	    {
+	        for (int row_tracker = 0; row_tracker < n; row_tracker ++)
+	        {
+	            
+	            for (int j = 0; j < old_biWidth; j++)
+	            {
+	                for (int col_tracker = 0; col_tracker < n; col_tracker++)
+	                {
+	                    
+	                    RGBTRIPLE triple;
+	        
+	                  
+	                    fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
+	        
+	                    
+	                    fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
+	                    
+	                   
+	                    if (col_tracker != (n-1))
+	                        fseek(inptr, -sizeof(RGBTRIPLE), SEEK_CUR);
+	                }
+	            
+	    
+	           
+	            fseek(inptr, old_padding, SEEK_CUR);
+	    
+	            
+	            for (int l = 0; l < new_padding; l++)
+	            {
+	                fputc(0x00, outptr);
+	            }
+	            
+	            
+	            if (row_tracker != (n-1))
+	                fseek(inptr, (-sizeof(RGBTRIPLE) * old_biWidth) - old_padding , SEEK_CUR);
+	        }
+	    }
+	
+
+	    
+	    fclose(inptr);
+	
+
+	    
+	    fclose(outptr);
+	
+
+	    
+	    return 0;
+	}
+
+Part 3:
+
+#include <stdio.h>
+	#include <stdint.h>
+	#include <stdbool.h>
+	
+
+	#define BLOCK_SIZE 512
+	
+
+	typedef uint8_t BYTE;
+	
+
+	int main(int argc, char *argv[])
+	{
+	   
+	    if (argc != 2)
+	    {
+	        fprintf(stderr, "Usage: recover infile\n");
+	        return 1;
+	    }
+	
+
+	    
+	    char *infile = argv[1];
+	
+
+	    
+	    FILE *inptr = fopen(infile, "r");
+	    if (inptr == NULL)
+	    {
+	        fprintf(stderr, "Could not open %s.\n", infile);
+	        return 2;
+	    }
+	
+
+	    BYTE buffer[512];
+	    int imageCount = 0;
+	
+
+	    char filename[8];
+	    FILE *outptr = NULL;
+	
+
+	    while (true)
+	    {
+	        
+	        size_t bytesRead = fread(buffer, sizeof(BYTE), BLOCK_SIZE, inptr);
+	
+
+	      
+	        if (bytesRead == 0 && feof(inptr))
+	        {
+	            break;
+	        }
+	
+
+	        
+	        bool containsJpegHeader = buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0;
+	
+
+	        
+	        if (containsJpegHeader && outptr != NULL)
+	        {
+	            fclose(outptr);
+	            imageCount++;
+	        }
+	
+
+	        
+	        if (containsJpegHeader)
+	        {
+	            sprintf(filename, "%03i.jpg", imageCount);
+	            outptr = fopen(filename, "w");
+	        }
+	
+
+	        
+	        if (outptr != NULL)
+	        {
+	            fwrite(buffer, sizeof(BYTE), bytesRead, outptr);
+	        }
+	    }
+	
+
+	    
+	    fclose(outptr);
+	
+
+	    
+	    fclose(inptr);
+	
+
+	   
+	    return 0;
+	}
+
